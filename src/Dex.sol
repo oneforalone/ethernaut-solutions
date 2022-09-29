@@ -76,7 +76,7 @@ contract SwappableToken is ERC20 {
         string memory name,
         string memory symbol,
         uint256 initialSupply
-    ) public ERC20(name, symbol) {
+    ) ERC20(name, symbol) {
         _mint(msg.sender, initialSupply);
         _dex = dexInstance;
     }
@@ -88,5 +88,7 @@ contract SwappableToken is ERC20 {
     ) public returns (bool) {
         require(owner != _dex, "InvalidApprover");
         super._approve(owner, spender, amount);
+        // remove unnamed return variable warning
+        return true;
     }
 }
