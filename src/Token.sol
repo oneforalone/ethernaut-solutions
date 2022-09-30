@@ -1,15 +1,21 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.6.0;
 
 contract Token {
     mapping(address => uint256) balances;
     uint256 public totalSupply;
 
     // remove visibility warning
-    constructor(uint256 _initialSupply) {
+    constructor(uint256 _initialSupply) public {
         balances[msg.sender] = totalSupply = _initialSupply;
     }
 
+    /*
+     * Solidity ^0.8.0 prevents overflows/underflows, so
+     * if you want to using version 0.8.0 or above, you should
+     * emmbed transfer codes into `unchecked`:
+     *
+     */
     function transfer(address _to, uint256 _value) public returns (bool) {
         require(balances[msg.sender] - _value >= 0);
         balances[msg.sender] -= _value;
