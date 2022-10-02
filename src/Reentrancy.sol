@@ -21,7 +21,10 @@ contract Reentrancy {
             if (result) {
                 _amount;
             }
-            balances[msg.sender] -= _amount;
+            // unchecked to prevent underflow errors
+            unchecked {
+                balances[msg.sender] -= _amount;
+            }
         }
     }
 
