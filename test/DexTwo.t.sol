@@ -2,16 +2,16 @@
 pragma solidity >=0.8.10;
 
 import "forge-std/Test.sol";
-import "../script/Dex.s.sol";
+import "../script/DexTwo.s.sol";
 
-contract DexTest is Test {
-    DexHack attacker;
+contract DexTwoTest is Test {
+    DexTwoHack attacker;
 
     function setUp() public {
-        attacker = new DexHack();
+        attacker = new DexTwoHack();
     }
 
-    function testDexHack() public {
+    function testDexTwoHack() public {
         attacker.setUp();
         attacker.run();
         require(
