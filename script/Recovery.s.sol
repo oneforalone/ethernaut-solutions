@@ -21,7 +21,7 @@ contract RecoveryHack is Script {
                         abi.encodePacked(
                             uint8(0xd6), // 0xc0 + 0x16 (22 = 1 + 20 + 1)
                             uint8(0x94), // 0x80 + 0x14 (20)
-                            recovery, // 20 bytes
+                            address(recovery), // 20 bytes
                             uint8(0x01) // one byte
                         )
                     )
