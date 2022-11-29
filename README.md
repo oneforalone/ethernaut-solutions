@@ -30,6 +30,17 @@
 | [26. DoubleEntryPoint][DoubleEntryPoint] | ** | |
 | [27. Good Samaritan][GoodSamaritan] | *** | |
 
+## Setup
+
+Install latest [foundry](https://book.getfoundry.sh/getting-started/installation) and then:
+
+```shell
+git clone https://github.com/oneforalone/ethernaut-solutions.git
+cd ethernaut-solutions
+forge install
+forge test
+```
+
 
 [Fallback]: https://ethernaut.openzeppelin.com/level/0x9CB391dbcD447E645D6Cb55dE6ca23164130D008
 [Fallout]: https://ethernaut.openzeppelin.com/level/0x5732B2F88cbd19B6f01E3a96e9f0D90B917281E5
